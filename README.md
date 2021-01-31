@@ -27,6 +27,6 @@ mvn spring-boot:run
 
 ## Swagger Documentation
 
-EMS-1.0.0.yaml - Shows the list of Endpoints in the current RESTful webservice.
+[EMS-1.0.0.yaml](https://github.com/sanjay-kansyakar/employee-management-service/blob/main/EMS-1.0.0.yaml) - Shows the list of Endpoints in the current RESTful webservice.
 
 Open [Swagger Editor](https://editor.swagger.io/) and paste content of EMS-1.0.0.yaml or import EMS-1.0.0.yaml file if you have downloaded file locally.
