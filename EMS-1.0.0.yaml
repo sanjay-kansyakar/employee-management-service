@@ -1,0 +1,173 @@
+swagger: '2.0'
+info:
+  description: 'The Employee Management Service provides an API to create and retrieve employees'
+  version: 1.0.0
+  title: 'Employee Management Service'
+host: 'localhost:8080'  
+basePath: '/v1'
+schemes:
+  - 'http'
+paths:
+  /employees:
+    post:
+      tags:
+        - 'employees'
+      summary: 'Add new employee'
+      consumes:
+      - 'application/json'
+      - 'application/xml'
+      produces:
+      - 'application/json'
+      - 'application/xml'
+      parameters:
+      - in: 'body'
+        name: 'body'
+        description: 'Employee that needs to be added'
+        required: true
+        schema:
+          $ref: '#/definitions/Employee'
+      responses:
+        '201':
+          description: 'Created'
+          schema:
+            $ref: '#/definitions/Employee'
+        '400':
+          description: 'Bad request'
+          schema:
+            $ref: '#/definitions/ErrorDetails'
+          examples:
+            1. Invalid payload:
+              {
+               errorCode: 'EMS002',
+               errorMessage: 'Invalid or Empty payload.'
+              }
+            2. Invalid firstname:
+              {
+               errorCode: 'EMS003',
+               errorMessage: 'Invalid firstname passed payload.'
+              }
+            3.Invalid lastname:
+              {
+               errorCode: 'EMS004',
+               errorMessage: 'Invalid lastname passed payload.'
+              }
+            4.Invalid department:
+              {
+               errorCode: 'EMS005',
+               errorMessage: 'Invalid department passed payload.'
+              }
+            5.Invalid DOB:
+              {
+               errorCode: 'EMS006',
+               errorMessage: 'Invalid DOB passed payload.'
+              }
+        '500':
+          description: 'Server error'
+          schema:
+            $ref: '#/definitions/ErrorDetails'
+          examples: 
+            1. Internal Server Error:
+              {
+               errorCode: 'EMS001',
+               errorMessage: 'Internal Server Error.'
+              }
+    get:
+      tags:
+        - 'employees'
+      summary: 'Get all employees'
+      produces:
+      - 'application/json'
+      - 'application/xml'
+      responses:
+        '200':
+          description: 'Success'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Employee'
+        '500':
+          description: 'Server error'
+          schema:
+            $ref: '#/definitions/ErrorDetails'
+          examples: 
+            1. Internal Server Error:
+              {
+               errorCode: 'EMS001',
+               errorMessage: 'Internal Server Error.'
+              }
+  /employees/{employeeId}:
+    get:
+      tags:
+        - 'employees'
+      summary: 'Get employee by id'
+      produces:
+      - 'application/json'
+      - 'application/xml'
+      parameters:
+      - name: "employeeId"
+        in: "path"
+        description: "Id of employee that needs to be fetched"
+        required: true
+        type: "string"
+      responses:
+        '200':
+          description: 'Success'
+          schema:
+            $ref: '#/definitions/Employee'
+        '400':
+          description: 'Bad request'
+          schema:
+            $ref: '#/definitions/ErrorDetails'
+          examples:
+            1. Invalid employeeId:
+              {
+               errorCode: 'EMS007',
+               errorMessage: 'Invalid employee id passed in request.'
+              }
+        '404':
+          description: 'Bad request'
+          schema:
+            $ref: '#/definitions/ErrorDetails'
+          examples:
+            1. Invalid employeeId:
+              {
+               errorCode: 'EMS007',
+               errorMessage: 'Invalid employee id passed in request.'
+              }
+        '500':
+          description: 'Server error'
+          schema:
+            $ref: '#/definitions/ErrorDetails'
+          examples: 
+            1. Internal Server Error:
+              {
+               errorCode: 'EMS001',
+               errorMessage: 'Internal Server Error.'
+              }
+definitions:
+  Employee:
+    type: 'object'
+    properties:
+      employeeId:
+        type: 'string'
+        description: 'A generated unique identifier for employee.'
+      firstName:
+        type: 'string'
+        description: 'First name of employee.'
+      lastName:
+        type: 'string'
+        description: 'Last name of employee.'
+      dob:
+        type: 'string'
+        description: 'Date Of Birth of employee.'
+        format: "date"
+      department:
+        type: 'string'
+        description: 'Department of employee.'
+  ErrorDetails:
+    type: 'object'
+    properties:
+      errorCode:
+        type: 'string'
+      errorMessage:
+        type: 'string'
